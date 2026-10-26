@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Memoria Técnica - Control de Acceso y Protección de Rutas</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 20mm 15mm 20mm 15mm;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #24292e;
+      line-height: 1.6;
+      font-size: 13px;
+      margin: 0;
+      padding: 0;
+    }
+    .header {
+      border-bottom: 2px solid #3880ff;
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 4px;
+      background-color: #f1f3f5;
+      color: #495057;
+      margin-right: 6px;
+    }
+    .badge-primary {
+      background-color: #e7f1ff;
+      color: #0d6efd;
+    }
+    .badge-success {
+      background-color: #e6fcf5;
+      color: #0ca678;
+    }
+    h1 {
+      font-size: 22px;
+      color: #1a1e21;
+      margin: 10px 0 5px 0;
+    }
+    h2 {
+      font-size: 16px;
+      color: #0d6efd;
+      border-bottom: 1px solid #e9ecef;
+      padding-bottom: 6px;
+      margin-top: 25px;
+      margin-bottom: 12px;
+      page-break-after: avoid;
+    }
+    h3 {
+      font-size: 14px;
+      color: #212529;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      page-break-after: avoid;
+    }
+    .meta-box {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 6px;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+    }
+    .meta-box p {
+      margin: 4px 0;
+      font-size: 12.5px;
+    }
+    .meta-box strong {
+      color: #343a40;
+    }
+    a {
+      color: #0d6efd;
+      text-decoration: none;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #d4d4d4;
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 11px;
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      line-height: 1.45;
+      margin: 10px 0;
+      page-break-inside: avoid;
+    }
+    code {
+      font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+      background: #f1f3f5;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-size: 11.5px;
+      color: #d63384;
+    }
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 12px;
+      page-break-inside: avoid;
+    }
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 8px 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+      color: #343a40;
+    }
+    tr:nth-child(even) {
+      background-color: #fafbfc;
+    }
+    .page-break {
+      page-break-before: always;
+    }
+    .check {
+      color: #198754;
+      font-weight: bold;
+    }
+    ul {
+      margin: 6px 0 12px 20px;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <span class="badge badge-primary">Desarrollo de Interfaces (0488)</span>
+    <span class="badge badge-success">2º Curso DAM</span>
+    <h1>Memoria Técnica: Control de Acceso y Protección de Rutas</h1>
+    <p style="margin: 3px 0 0 0; color: #6c757d; font-size: 13px;">Ionic Framework + Angular Standalone Components + Functional Guards (CanActivateFn)</p>
+  </div>
+
+  <div class="meta-box">
+    <p><strong>Alumno:</strong> Fabio Rieker</p>
+    <p><strong>Repositorio GitHub:</strong> <a href="https://github.com/FabioRieker/ActividadGuard">https://github.com/FabioRieker/ActividadGuard</a></p>
+    <p><strong>Despliegue en Vercel:</strong> <a href="https://actividad-guard-six.vercel.app">https://actividad-guard-six.vercel.app</a></p>
+    <p><strong>Credenciales de Prueba:</strong> <code>admin / 123</code> (Rol: 'admin') &nbsp;|&nbsp; <code>operador / 123</code> (Rol: 'user')</p>
+  </div>
+
+  <h2>1. Fundamentación Teórica y Arquitectura Funcional</h2>
+  <p>
+    En las versiones contemporáneas de Angular (v16+ y superiores), la arquitectura de navegación abandonó el paradigma heredado basado en interfaces de clases (<code>CanActivate</code>) en favor de las <strong>Functional Guards (<code>CanActivateFn</code>)</strong>.
+  </p>
+  <ul>
+    <li><strong>Inyección Directa en Contexto:</strong> Se utiliza la función nativa <code>inject()</code> (ej. <code>inject(AuthService)</code>, <code>inject(Router)</code>) sin necesidad de constructores de clases ni boilerplate de inyección jerárquica.</li>
+    <li><strong>Redirecciones Atómicas con <code>UrlTree</code>:</strong> A diferencia del clásico retorno de un valor booleano falso (que congela o cancela sin redirigir), la guarda retorna un árbol de enrutamiento <code>UrlTree</code> mediante <code>router.createUrlTree(['/ruta'])</code>. Esto ejecuta una redirección limpia, instantánea y transaccional en un único ciclo del enrutador.</li>
+    <li><strong>Persistencia de Sesión Sincronizada:</strong> Para evitar pérdidas de sesión por reinicio del contexto de JavaScript o al abrir la URL copiada en nuevas pestañas, el estado reactivo basado en <strong>Angular Signals</strong> se sincroniza de forma dual con <code>sessionStorage</code> y <code>localStorage</code>.</li>
+  </ul>
+
+  <h2>2. Implementación de Código Fuente Clave</h2>
+
+  <h3>2.1. Factoría de Guards de Roles Granulares (<code>src/app/core/guards/role.guard.ts</code>)</h3>
+  <p>
+    Cumple con el ejercicio de la Sección 4: valida el rol del usuario autenticado. Si un usuario con rol <code>user</code> (operador) introduce directamente en el navegador <code>/admin</code>, la guarda intercepta la petición y redirige a <code>/user-dashboard</code>.
+  </p>
+  <pre><code>import { inject } from '@angular/core';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+export const roleGuard = (allowedRole: string): CanActivateFn => {
+  return (route, state): boolean | UrlTree => {
+    const authService = inject(AuthService);
+    const router = inject(Router);
+
+    // 1. Validar autenticación activa
+    if (!authService.isAuthenticated()) {
+      return router.createUrlTree(['/login'], {
+        queryParams: { returnUrl: state.url }
+      });
+    }
+
+    const currentRole = authService.currentUser()?.role;
+
+    // 2. Si cuenta con el rol autorizado, permitir paso
+    if (currentRole === allowedRole) {
+      return true;
+    }
+
+    // 3. Denegar acceso a /admin a usuarios 'user' y redirigir a su panel
+    if (currentRole === 'user') {
+      return router.createUrlTree(['/user-dashboard']);
+    }
+
+    return router.createUrlTree(['/admin']);
+  };
+};</code></pre>
+
+  <div class="page-break"></div>
+
+  <h3>2.2. Guarda de Autenticación Funcional (<code>src/app/core/guards/auth.guard.ts</code>)</h3>
+  <p>
+    Verifica si el usuario está autenticado en memoria o almacenamiento local antes de permitir el acceso a rutas protegidas.
+  </p>
+  <pre><code>import { inject } from '@angular/core';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+export const authGuard: CanActivateFn = (route, state): boolean | UrlTree => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  // Verificación reactiva
+  if (authService.isAuthenticated()) {
+    return true;
+  }
+
+  // Redirección atómica hacia la pantalla de login preservando la URL original
+  return router.createUrlTree(['/login'], {
+    queryParams: { returnUrl: state.url }
+  });
+};</code></pre>
+
+  <h3>2.3. Servicio de Autenticación con Angular Signals y Persistencia (<code>src/app/core/services/auth.service.ts</code>)</h3>
+  <p>
+    Manejo de reactividad con Signals y sincronización de estado para persistir la sesión al refrescar y al copiar la URL.
+  </p>
+  <pre><code>import { Injectable, signal, computed } from '@angular/core';
+
+export interface UserSession {
+  username: string;
+  role: 'admin' | 'user';
+  isAuthenticated: boolean;
+}
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private readonly STORAGE_KEY = 'DAM2_AUTH_SESSION';
+
+  // Signal reactivo para el estado en memoria
+  private _currentUser = signal&lt;UserSession | null&gt;(this.readSessionFromStorage());
+
+  public currentUser = this._currentUser.asReadonly();
+  public isAuthenticated = computed(() =&gt; this._currentUser()?.isAuthenticated ?? false);
+
+  public login(user: string, pass: string): boolean {
+    let role: 'admin' | 'user' | null = null;
+    if (user === 'admin' && pass === '123') role = 'admin';
+    else if (user === 'operador' && pass === '123') role = 'user';
+
+    if (role) {
+      const sessionData: UserSession = { username: user, role, isAuthenticated: true };
+      this._currentUser.set(sessionData);
+
+      // Persistencia en Web Storage API
+      const serialized = JSON.stringify(sessionData);
+      sessionStorage.setItem(this.STORAGE_KEY, serialized);
+      localStorage.setItem(this.STORAGE_KEY, serialized);
+      return true;
+    }
+    return false;
+  }
+
+  public logout(): void {
+    sessionStorage.removeItem(this.STORAGE_KEY);
+    localStorage.removeItem(this.STORAGE_KEY);
+    this._currentUser.set(null);
+  }
+
+  private readSessionFromStorage(): UserSession | null {
+    const rawData = sessionStorage.getItem(this.STORAGE_KEY) || localStorage.getItem(this.STORAGE_KEY);
+    if (!rawData) return null;
+    try {
+      const session = JSON.parse(rawData) as UserSession;
+      sessionStorage.setItem(this.STORAGE_KEY, rawData);
+      localStorage.setItem(this.STORAGE_KEY, rawData);
+      return session;
+    } catch {
+      this.logout();
+      return null;
+    }
+  }
+}</code></pre>
+
+  <div class="page-break"></div>
+
+  <h3>2.4. Enrutamiento Modular y Lazy Loading (<code>src/app/app.routes.ts</code>)</h3>
+  <pre><code>import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
+
+export const routes: Routes = [
+  {
+    path: '',
+    loadComponent: () =&gt; import('./pages/home/home.page').then(m =&gt; m.HomePage),
+  },
+  {
+    path: 'login',
+    loadComponent: () =&gt; import('./pages/login/login.page').then(m =&gt; m.LoginPage),
+  },
+  {
+    path: 'admin',
+    canActivate: [authGuard, roleGuard('admin')],
+    loadComponent: () =&gt; import('./pages/admin/admin.page').then(m =&gt; m.AdminPage),
+  },
+  {
+    path: 'user-dashboard',
+    canActivate: [authGuard, roleGuard('user')],
+    loadComponent: () =&gt; import('./pages/user-dashboard/user-dashboard.page').then(m =&gt; m.UserDashboardPage),
+  },
+  {
+    path: '**',
+    redirectTo: '',
+  },
+];</code></pre>
+
+  <h2>3. Metodología Git y Estrategia de Ramas (Git Flow)</h2>
+  <p>
+    El repositorio sigue la estrategia de ramas y la convención de commits solicitada:
+  </p>
+  <ul>
+    <li><strong><code>main</code>:</strong> Versiones cerradas, estables y listas para la evaluación del tribunal.</li>
+    <li><strong><code>develop</code>:</strong> Rama base de integración diaria del equipo de trabajo.</li>
+    <li><strong><code>tarea/control-acceso-guards</code>:</strong> Rama temporal de desarrollo de la funcionalidad.</li>
+    <li><strong>Conventional Commits:</strong> Commits con prefijos <code>feat:</code> (nuevas funcionalidades), <code>fix:</code> (correcciones) y <code>docs:</code> (documentación).</li>
+  </ul>
+
+  <h2>4. Demostración y Verificación Técnica</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Prueba / Escenario</th>
+        <th>Procedimiento</th>
+        <th>Resultado Esperado</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Página de Inicio</strong></td>
+        <td>Cargar <code>/</code></td>
+        <td>Muestra "Hola Mundo" y botón al login</td>
+        <td class="check">✔ Superado</td>
+      </tr>
+      <tr>
+        <td><strong>Login Admin</strong></td>
+        <td>Pulsar botón rápido "Iniciar como Admin"</td>
+        <td>Toast de bienvenida y navegación a <code>/admin</code></td>
+        <td class="check">✔ Superado</td>
+      </tr>
+      <tr>
+        <td><strong>Login Operador</strong></td>
+        <td>Pulsar botón rápido "Iniciar como Operador"</td>
+        <td>Toast de bienvenida y navegación a <code>/user-dashboard</code></td>
+        <td class="check">✔ Superado</td>
+      </tr>
+      <tr>
+        <td><strong>Ataque a /admin</strong></td>
+        <td>Escribir <code>/admin</code> con rol 'user'</td>
+        <td><code>roleGuard</code> intercepta y redirige a <code>/user-dashboard</code></td>
+        <td class="check">✔ Superado</td>
+      </tr>
+      <tr>
+        <td><strong>Persistencia URL</strong></td>
+        <td>Copiar URL a otra pestaña</td>
+        <td>Sesión conservada activamente mediante Web Storage</td>
+        <td class="check">✔ Superado</td>
+      </tr>
+      <tr>
+        <td><strong>Cierre de Sesión</strong></td>
+        <td>Pulsar "Cerrar Sesión"</td>
+        <td>Toast de despedida, borrado de storages y vuelta a <code>/login</code></td>
+        <td class="check">✔ Superado</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>
