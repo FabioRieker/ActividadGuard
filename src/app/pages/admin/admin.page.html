@@ -8,15 +8,27 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card color="light">
-    <ion-card-header>
-      <ion-card-title>Bienvenido, {{ currentSession()?.username }}</ion-card-title>
-      <ion-card-subtitle>Rol: {{ currentSession()?.role }}</ion-card-subtitle>
-    </ion-card-header>
+  <div style="max-width: 600px; margin: 1.5rem auto;">
+    <ion-card color="light">
+      <ion-card-header>
+        <ion-card-title>Bienvenido, {{ currentSession()?.username }}</ion-card-title>
+        <ion-card-subtitle>Rol: {{ currentSession()?.role }}</ion-card-subtitle>
+      </ion-card-header>
 
-    <ion-card-content>
-      <p>Has superado la validación del enrutador (<code>authGuard</code>).</p>
-      <p>La sesión está almacenada activamente en <code>sessionStorage</code>.</p>
-    </ion-card-content>
-  </ion-card>
+      <ion-card-content>
+        <p>Has superado la validación del enrutador (<code>authGuard</code> y <code>roleGuard('admin')</code>).</p>
+        <p>La sesión está almacenada activamente en <code>sessionStorage</code> y <code>localStorage</code>.</p>
+
+        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(128,128,128,0.2);">
+          <a
+            href="https://github.com/FabioRieker/ActividadGuard"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="text-decoration: none; font-size: 0.9rem; color: var(--ion-color-primary); font-weight: bold;">
+            🔗 Repositorio GitHub: FabioRieker/ActividadGuard
+          </a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
