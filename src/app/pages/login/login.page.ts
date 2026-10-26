@@ -31,6 +31,17 @@ export class LoginPage {
   public password = '';
   public errorMessage = '';
 
+  public quickLogin(role: 'admin' | 'operador'): void {
+    if (role === 'admin') {
+      this.username = 'admin';
+      this.password = '123';
+    } else {
+      this.username = 'operador';
+      this.password = '123';
+    }
+    this.handleLogin();
+  }
+
   public async handleLogin(): Promise<void> {
     this.errorMessage = '';
     const success = this.authService.login(this.username, this.password);
