@@ -8,11 +8,11 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div style="max-width: 480px; margin: 2rem auto;">
+  <div style="max-width: 480px; margin: 1.5rem auto;">
     <ion-card>
       <ion-card-header>
         <ion-card-title>Iniciar Sesión</ion-card-title>
-        <ion-card-subtitle>Introduce tus credenciales del sistema</ion-card-subtitle>
+        <ion-card-subtitle>Introduce tus credenciales o pulsa un acceso rápido</ion-card-subtitle>
       </ion-card-header>
 
       <ion-card-content>
@@ -40,6 +40,16 @@
           Acceder al Panel
         </ion-button>
 
+        <!-- Accesos directos rápidos sin escribir -->
+        <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+          <ion-button expand="block" fill="tonal" color="dark" (click)="quickLogin('admin')">
+            ⚡ Iniciar como Admin (admin / 123)
+          </ion-button>
+          <ion-button expand="block" fill="tonal" color="secondary" (click)="quickLogin('operador')">
+            ⚡ Iniciar como Operador (operador / 123)
+          </ion-button>
+        </div>
+
         @if (errorMessage) {
           <ion-text color="danger">
             <p class="ion-text-center ion-margin-top" style="font-weight: 500;">{{ errorMessage }}</p>
@@ -47,15 +57,19 @@
         }
 
         <div style="margin-top: 1.5rem; text-align: center; border-top: 1px solid rgba(128,128,128,0.2); padding-top: 1rem;">
-          <p style="font-size: 0.85rem; color: var(--ion-color-medium); margin-bottom: 0.5rem;">
-            Credenciales de prueba: <code>admin / 123</code> o <code>operador / 123</code>
-          </p>
           <a
             href="https://github.com/FabioRieker/ActividadGuard"
             target="_blank"
             rel="noopener noreferrer"
-            style="text-decoration: none; font-size: 0.85rem; color: var(--ion-color-primary); font-weight: bold;">
+            style="text-decoration: none; font-size: 0.85rem; color: var(--ion-color-primary); font-weight: bold; display: block; margin-bottom: 0.4rem;">
             🔗 Ver Repositorio en GitHub (FabioRieker/ActividadGuard)
+          </a>
+          <a
+            href="https://actividad-guard.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="text-decoration: none; font-size: 0.85rem; color: var(--ion-color-secondary); font-weight: bold;">
+            🚀 Despliegue en Vercel: actividad-guard.vercel.app
           </a>
         </div>
       </ion-card-content>
