@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Inicio</ion-title>
+    @if (isAuthenticated()) {
+      <ion-buttons slot="end">
+        <ion-button (click)="handleLogout()">Cerrar Sesión</ion-button>
+      </ion-buttons>
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card class="ion-text-center">
+    <ion-card-header>
+      <ion-card-title>
+        <h1 style="font-size: 2.5rem; margin: 0.5rem 0; font-weight: bold; color: var(--ion-color-primary);">Hola Mundo</h1>
+      </ion-card-title>
+      <ion-card-subtitle>Página web básica de bienvenida</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p style="margin-bottom: 1.5rem; font-size: 1.05rem;">
+        Bienvenido a la aplicación con control de acceso, persistencia de sesión y protección de rutas mediante Functional Guards.
+      </p>
+
+      @if (!isAuthenticated()) {
+        <ion-button expand="block" routerLink="/login" color="primary">
+          Ir al Login / Iniciar Sesión
+        </ion-button>
+      } @else {
+        <div style="margin-bottom: 1rem; padding: 0.75rem; background: rgba(var(--ion-color-primary-rgb), 0.08); border-radius: 8px;">
+          <p style="margin: 0;">Sesión activa: <strong>{{ currentUser()?.username }}</strong> (Rol: <strong>{{ currentUser()?.role }}</strong>)</p>
+        </div>
+        <ion-button expand="block" (click)="goToUserHome()" color="success">
+          Ir a mi Panel ({{ currentUser()?.role === 'admin' ? 'Administrador' : 'Operador' }})
+        </ion-button>
+      }
+    </ion-card-content>
+  </ion-card>
+</ion-content>
