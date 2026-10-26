@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import {
   IonContent, IonHeader, IonTitle, IonToolbar,
   IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle,
-  IonCardContent, IonButtons, IonButton
+  IonCardContent, IonButtons, IonButton, ToastController
 } from '@ionic/angular';
 import { AuthService } from '../../core/services/auth.service';
 
@@ -23,11 +23,19 @@ import { AuthService } from '../../core/services/auth.service';
 export class AdminPage {
   private authService = inject(AuthService);
   private router = inject(Router);
+  private toastController = inject(ToastController);
 
   public currentSession = this.authService.currentUser;
 
-  public handleLogout(): void {
+  public async handleLogout(): Promise<void> {
     this.authService.logout();
+    const toast = await this.toastController.create({
+      message: 'Sesión finalizada correctamente.',
+      duration: 2000,
+      color: 'medium',
+      position: 'top'
+    });
+    await toast.present();
     this.router.navigate(['/login']);
   }
 }

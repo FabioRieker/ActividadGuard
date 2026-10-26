@@ -1,36 +1,64 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button routerLink="/">Inicio</ion-button>
+    </ion-buttons>
     <ion-title>Control de Acceso</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Iniciar Sesión</ion-card-title>
-      <ion-card-subtitle>Introduce tus credenciales del sistema</ion-card-subtitle>
-    </ion-card-header>
+  <div style="max-width: 480px; margin: 2rem auto;">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Iniciar Sesión</ion-card-title>
+        <ion-card-subtitle>Introduce tus credenciales del sistema</ion-card-subtitle>
+      </ion-card-header>
 
-    <ion-card-content>
-      <ion-item fill="outline" class="ion-margin-bottom">
-        <ion-label position="floating">Usuario</ion-label>
-        <ion-input type="text" [(ngModel)]="username" placeholder="admin"></ion-input>
-      </ion-item>
+      <ion-card-content>
+        <ion-item fill="outline" class="ion-margin-bottom">
+          <ion-input
+            label="Usuario"
+            labelPlacement="floating"
+            type="text"
+            [(ngModel)]="username"
+            placeholder="admin u operador">
+          </ion-input>
+        </ion-item>
 
-      <ion-item fill="outline" class="ion-margin-bottom">
-        <ion-label position="floating">Contraseña</ion-label>
-        <ion-input type="password" [(ngModel)]="password" placeholder="123"></ion-input>
-      </ion-item>
+        <ion-item fill="outline" class="ion-margin-bottom">
+          <ion-input
+            label="Contraseña"
+            labelPlacement="floating"
+            type="password"
+            [(ngModel)]="password"
+            placeholder="123">
+          </ion-input>
+        </ion-item>
 
-      <ion-button expand="block" (click)="handleLogin()" class="ion-margin-top">
-        Acceder al Panel
-      </ion-button>
+        <ion-button expand="block" (click)="handleLogin()" class="ion-margin-top">
+          Acceder al Panel
+        </ion-button>
 
-      @if (errorMessage) {
-        <ion-text color="danger">
-          <p class="ion-text-center">{{ errorMessage }}</p>
-        </ion-text>
-      }
-    </ion-card-content>
-  </ion-card>
+        @if (errorMessage) {
+          <ion-text color="danger">
+            <p class="ion-text-center ion-margin-top" style="font-weight: 500;">{{ errorMessage }}</p>
+          </ion-text>
+        }
+
+        <div style="margin-top: 1.5rem; text-align: center; border-top: 1px solid rgba(128,128,128,0.2); padding-top: 1rem;">
+          <p style="font-size: 0.85rem; color: var(--ion-color-medium); margin-bottom: 0.5rem;">
+            Credenciales de prueba: <code>admin / 123</code> o <code>operador / 123</code>
+          </p>
+          <a
+            href="https://github.com/FabioRieker/ActividadGuard"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="text-decoration: none; font-size: 0.85rem; color: var(--ion-color-primary); font-weight: bold;">
+            🔗 Ver Repositorio en GitHub (FabioRieker/ActividadGuard)
+          </a>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
